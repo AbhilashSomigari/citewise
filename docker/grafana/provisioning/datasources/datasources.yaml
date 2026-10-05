@@ -1,0 +1,19 @@
+apiVersion: 1
+datasources:
+  - name: Prometheus
+    uid: prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+  - name: Citewise DB
+    uid: ppdb
+    type: grafana-postgresql-datasource
+    url: postgres:5432
+    user: citewise
+    secureJsonData:
+      password: citewise
+    jsonData:
+      database: citewise
+      sslmode: disable
+      postgresVersion: 1600
