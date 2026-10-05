@@ -8,7 +8,7 @@ import time
 
 from citewise.config import get_settings
 from citewise.obs.metrics import start_metrics_server
-from citewise.obs.tracing import setup_tracing
+from citewise.obs.tracing import setup_logging, setup_tracing
 
 log = logging.getLogger("citewise.worker")
 
@@ -56,10 +56,14 @@ async def tick() -> bool:
 
 
 async def run_worker(poll_interval_s: float = 2.0) -> None:
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
+    setup_logging()
     settings = get_settings()
     setup_tracing("citewise-worker")
     start_metrics_server(settings.worker_metrics_port)
+    from citewise.llm.client import get_llm
+    from citewise.obs.metrics import init_label_sets
+
+    init_label_sets(settings.llm_provider, get_llm().models())
     from citewise.graph.runner import setup_checkpointer
 
     await setup_checkpointer()
