@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import logging
+from pathlib import Path
 
-from citewise.config import get_settings
+from citewise.config import REPO_ROOT, get_settings
 from citewise.models import ICP, CompanyCandidate
 from citewise.obs.tracing import set_attrs, span
 from citewise.sources import github, hn
@@ -13,6 +14,11 @@ from citewise.sources.http import FetchError, PoliteFetcher
 from citewise.sources.website import candidate_from_website
 
 log = logging.getLogger(__name__)
+
+
+def _resolve_path(p: str) -> Path:
+    path = Path(p)
+    return path if path.is_absolute() or path.exists() else REPO_ROOT / path
 
 
 def icp_score(icp: ICP, c: CompanyCandidate) -> float:
@@ -58,7 +64,7 @@ async def gather(icp: ICP, fetcher: PoliteFetcher) -> list[CompanyCandidate]:
     src = icp.sources
     with span("agent.prospector.gather", **{"pp.icp": icp.name}) as s:
         if src.csv_path:
-            curated += load_csv(src.csv_path)
+            curated += load_csv(_resolve_path(src.csv_path))
         for url in src.websites:
             try:
                 curated.append(await candidate_from_website(fetcher, url))
