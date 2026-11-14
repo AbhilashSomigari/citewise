@@ -1,4 +1,4 @@
-# Deploying ProspectPilot to AWS
+# Deploying Citewise to AWS
 
 The Terraform in `infra/terraform` provisions:
 

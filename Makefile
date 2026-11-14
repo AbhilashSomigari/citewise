@@ -1,4 +1,4 @@
-# ProspectPilot developer commands. `make help` lists them.
+# Citewise developer commands. `make help` lists them.
 SHELL := /bin/bash
 UV ?= uv
 PP := $(UV) run prospectpilot

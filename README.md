@@ -1,4 +1,6 @@
-# ProspectPilot
+# Citewise
+
+*Formerly ProspectPilot. The Python package and CLI are still named `prospectpilot`.*
 
 **A self-improving SDR agent.** Give it an Ideal Customer Profile; it finds companies from
 public sources, researches them, verifies contact emails without probing mail servers, and writes
@@ -7,7 +9,7 @@ URL**. Every night it evaluates its own drafts with [EvalForge](https://github.c
 mines the failures into a learnings memory, proposes better writer prompts, and promotes one
 **only if it passes regression gates**.
 
-[![ci](https://github.com/AbhilashSomigari/prospectpilot/actions/workflows/ci.yml/badge.svg)](.github/workflows/ci.yml)
+[![ci](https://github.com/AbhilashSomigari/citewise/actions/workflows/ci.yml/badge.svg)](.github/workflows/ci.yml)
 · Python 3.12 · LangGraph · FastAPI · Postgres + pgvector · OpenTelemetry · Prometheus/Grafana ·
 EvalForge · Terraform (AWS ECS Fargate)
 
@@ -18,7 +20,7 @@ Measured results (real model runs, with the exact commands): **[RESULTS.md](RESU
 ## Quickstart (no API keys)
 
 ```bash
-git clone https://github.com/AbhilashSomigari/prospectpilot && cd prospectpilot
+git clone https://github.com/AbhilashSomigari/citewise && cd citewise
 make up      # postgres+pgvector, mailpit, jaeger, otel-collector, prometheus, grafana, api, worker
 make demo    # full campaign over fictional fixture companies, deterministic mock LLM
 ```
@@ -126,9 +128,9 @@ graph TD;
 |---|---|---|
 | `json_contract` | EvalForge built-in | output is a JSON object with `emails` |
 | `cites_known_fact` | EvalForge `citation_groundedness` | at least one of this prospect's fact ids is cited |
-| `sequence_checks` | ProspectPilot | every deterministic critic check passes (recomputed from the output) |
-| `hallucination_grounding` | ProspectPilot | every personalized claim is grounded (feeds EvalForge's `hallucination_rate`) |
-| `judge_rubric` | ProspectPilot | judge mean ≥ 3.5 / 5 |
+| `sequence_checks` | Citewise | every deterministic critic check passes (recomputed from the output) |
+| `hallucination_grounding` | Citewise | every personalized claim is grounded (feeds EvalForge's `hallucination_rate`) |
+| `judge_rubric` | Citewise | judge mean ≥ 3.5 / 5 |
 
 `make eval PROVIDER=ollama` runs the suite and exits 2 when a gate fails (EvalForge's CI
 convention). `evals/suite_builtin.yaml` lets plain EvalForge drive the same agent through its

@@ -1,6 +1,6 @@
 # Security and responsible use
 
-ProspectPilot is a research/portfolio project. Its guardrails are part of the design:
+Citewise is a research/portfolio project. Its guardrails are part of the design:
 
 - **No real email.** `agents/mailer.py` refuses every SMTP host except the local Mailpit sandbox
   unless `ALLOW_REAL_SEND=true` *and* the CLI's `--i-understand` flag are both set. Please keep it
